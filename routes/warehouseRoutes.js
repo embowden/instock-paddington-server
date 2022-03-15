@@ -9,6 +9,13 @@ const readFile = (path) => {
   return content;
 };
 
+/////---Warehouse Data GET---////
+router.get("/", (req, res) => {
+  const warehouseData = readFile("./data/warehouses.json");
+  res.status(200).json(warehouseData);
+});
+///////----------------//////////
+
 // DELETE WAREHOUSE AND CORRESPONDING INVENTORY
 router.delete("/:warehouseId", (req, res) => {
   const warehouseId = req.params.warehouseId;
@@ -35,29 +42,28 @@ router.delete("/:warehouseId", (req, res) => {
   fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
   fs.writeFileSync("./data/inventories.json", JSON.stringify(inventoryData));
 
-  res.status(200).json("The following warehouse was deleted",warehouse);
+  res.status(200).json("The following warehouse was deleted", warehouse);
 });
 
 module.exports = router;
 
 //*CREATE-NEW-WAREHOUSE
-router.post("/", (req, res)=> {
-    const warehouseData = JSON.parse(fs.readFileSync("./data/warehouses.json"));
-    const newWarehouse = 
-      {
-        id: uuidv4(),
-        warehouseName: req.body.warehouseName,
-        streetAdress: req.body.streetAdress,
-        city: req.body.city,
-        country: req.body.country,
-        contact : {
-        name: req.body.contact.name,
-        position: req.body.contact.position ,
-        phone: req.body.contact.phone ,
-        email: req.body.contact.email
-    }
-    
-    }
+router.post("/", (req, res) => {
+  const warehouseData = JSON.parse(fs.readFileSync("./data/warehouses.json"));
+  const newWarehouse = {
+    id: uuidv4(),
+    warehouseName: req.body.warehouseName,
+    streetAdress: req.body.streetAdress,
+    city: req.body.city,
+    country: req.body.country,
+    contact: {
+      name: req.body.contact.name,
+      position: req.body.contact.position,
+      phone: req.body.contact.phone,
+      email: req.body.contact.email,
+    },
+  };
+
 
     warehouseData.push(newWarehouse);
     fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData))
@@ -92,3 +98,4 @@ router.post("/:warehouseId", (req, res)=> {
      res.status(201).json(warehouseData); 
     
 })
+
