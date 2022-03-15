@@ -14,7 +14,15 @@ router.get("/", (req, res) => {
   const warehouseData = readFile("./data/warehouses.json");
   res.status(200).json(warehouseData);
 });
-///////----------------//////////
+///------GET Individual------///
+router.get("/:id", (req, res) => {
+  const warehouseContent = readFile("./data/warehouses.json");
+  const selectedWarehouse = warehouseContent.find(
+    (warehouse) => warehouse.id == req.params.id
+  );
+  res.status(200).json(selectedWarehouse);
+});
+///---------------------------///
 
 // DELETE WAREHOUSE AND CORRESPONDING INVENTORY
 router.delete("/:warehouseId", (req, res) => {
