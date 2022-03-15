@@ -72,7 +72,38 @@ router.post("/", (req, res) => {
     },
   };
 
-  warehouseData.push(newWarehouse);
-  fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
-  res.status(201).json(newWarehouse);
+
+    warehouseData.push(newWarehouse);
+    fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData))
+    res.status(201).json(newWarehouse); 
 });
+
+
+
+//*EDIT-WAREHOUSE
+router.post("/:warehouseId", (req, res)=> {
+    const warehouseId = req.params.warehouseId;
+    const warehouseData = JSON.parse(fs.readFileSync("./data/warehouses.json"));
+
+    const warehouse = warehouseData.find((object) => object.id == warehouseId);
+        if (!warehouse) {
+        res.status(400).json("Please provide a valid ID");
+  }
+    const editedWarehouse = {id: warehouseId, ...req.body}
+
+//* This function finds the index of the desired warehouse
+    const findIndex = () => {
+    for(let i = 0; warehouseData.length; i++ ){
+        if(warehouseData[i].id == warehouseId){
+            return i
+        }
+    }
+}
+
+     warehouseData.splice(findIndex(), 1 , editedWarehouse);
+     
+     fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData))
+     res.status(201).json(warehouseData); 
+    
+})
+
