@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
   fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
   res.status(201).json(newWarehouse);
 });
-
+//Warehouse Data GET
 router.get("/", (req, res) => {
   const warehouseDataContent = readFile("./data/warehouses.json");
   res.status(200).json(warehouseDataContent);
