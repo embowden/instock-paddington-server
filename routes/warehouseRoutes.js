@@ -9,6 +9,13 @@ const readFile = (path) => {
   return content;
 };
 
+/////---Warehouse Data GET---////
+router.get("/", (req, res) => {
+  const warehouseData = readFile("./data/warehouses.json");
+  res.status(200).json(warehouseData);
+});
+///////----------------//////////
+
 // DELETE WAREHOUSE AND CORRESPONDING INVENTORY
 router.delete("/:warehouseId", (req, res) => {
   const warehouseId = req.params.warehouseId;
@@ -35,7 +42,7 @@ router.delete("/:warehouseId", (req, res) => {
   fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
   fs.writeFileSync("./data/inventories.json", JSON.stringify(inventoryData));
 
-  res.status(200).json("The following warehouse was deleted",warehouse);
+  res.status(200).json("The following warehouse was deleted", warehouse);
 });
 
 module.exports = router;
@@ -60,9 +67,4 @@ router.post("/", (req, res) => {
   warehouseData.push(newWarehouse);
   fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
   res.status(201).json(newWarehouse);
-});
-//Warehouse Data GET
-router.get("/", (req, res) => {
-  const warehouseDataContent = readFile("./data/warehouses.json");
-  res.status(200).json(warehouseDataContent);
 });
