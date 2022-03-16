@@ -60,8 +60,8 @@ router.post("/", (req, res) => {
   const warehouseData = JSON.parse(fs.readFileSync("./data/warehouses.json"));
   const newWarehouse = {
     id: uuidv4(),
-    name: req.body.warehouseName,
-    address: req.body.streetAdress,
+    name: req.body.name,
+    address: req.body.address,
     city: req.body.city,
     country: req.body.country,
     contact: {
