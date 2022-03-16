@@ -13,8 +13,6 @@ const readFile = (path) => {
 router.get("/", (req, res) => {
   const warehouseData = readFile("./data/warehouses.json");
   res.status(200).json(warehouseData);
-});
-///////----------------//////////
 ///------GET Individual------///
 router.get("/:id", (req, res) => {
   const warehouseContent = readFile("./data/warehouses.json");
