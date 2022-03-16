@@ -53,8 +53,22 @@ router.get("/:warehouseId/inventory/:inventoryId", (req, res) => {
   res.status(200).json(currInventory);
 });
 
-
 // API to POST/CREATE a New Inventory Item
+router.post("/:warehouseId/inventory", (req, res) => {
+  const inventoryData = readFile("./data/inventories.json");
+  const warehouseId = req.params.warehouseId;
+  const currWarehouse = inventoryData.find(
+    (warehouse) => warehouse.warehouseID === warehouseId
+  );
+  if (!currWarehouse) {
+    res.status(400).json("Please provide a valid Warehouse ID");
+  }
+
+  const newInventoryItem = { id: uuidv4(), warehouseID: warehouseId, ...req.body };
+  inventoryData.push(newInventoryItem);
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(inventoryData));
+  res.status(200).json(newInventoryItem);
+});
 
 // API to PUT/PATCH/EDIT an Inventory Item
 
