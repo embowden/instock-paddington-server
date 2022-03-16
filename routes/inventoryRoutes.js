@@ -110,3 +110,22 @@ router.post("/:inventoryId/:warehouseId", (req, res) => {
 });
 
 // API to DELTE an Inventory Item
+router.delete("/:inventoryId", (req, res) => {
+  const inventoryData = readFile("./data/inventories.json");
+  const inventoryId = req.params.inventoryId;
+
+  const currInventory = inventoryData.find(
+    (inventory) => inventory.id === inventoryId
+  );
+  if (!currInventory) {
+    res.status(400).json("Please provide a valid Inventory ID");
+  }
+
+  const inventoryIndex = inventoryData.findIndex(
+    (inventory) => inventory.id === inventoryId
+  );
+
+  inventoryData.splice(inventoryIndex, 1);
+  fs.writeFileSync("./data/inventories.json", JSON.stringify(inventoryData));
+  res.status(200).json(currInventory);
+});
