@@ -1,13 +1,13 @@
 const express = require("express");
-// const readFile = require("../utils/helper-functions");
+const readFile = require("../utils/helper-functions");
 const router = express.Router();
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
-const readFile = (path) => {
-  const content = JSON.parse(fs.readFileSync(path));
-  return content;
-};
+// const readFile = (path) => {
+//   const content = JSON.parse(fs.readFileSync(path));
+//   return content;
+// };
 
 /////---Warehouse Data GET---////
 router.get("/", (req, res) => {
