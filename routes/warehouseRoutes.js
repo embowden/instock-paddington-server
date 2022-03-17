@@ -36,7 +36,7 @@ router.delete("/:warehouseId", (req, res) => {
     res.status(400).json("Please provide a valid ID");
   }
 
-  const warehouseIndex = warehouseData.find(
+  const warehouseIndex = warehouseData.findIndex(
     (object) => object.id === warehouseId
   );
 
@@ -44,13 +44,15 @@ router.delete("/:warehouseId", (req, res) => {
     (object) => object.warehouseID != warehouse.id
   );
 
+  console.log(warehouseIndex);
+
   warehouseData.splice(warehouseIndex, 1);
   inventoryData = filteredInventories;
 
   fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
   fs.writeFileSync("./data/inventories.json", JSON.stringify(inventoryData));
 
-  res.status(200).json("The following warehouse was deleted", warehouse);
+  res.status(200).json(warehouse);
 });
 
 module.exports = router;
